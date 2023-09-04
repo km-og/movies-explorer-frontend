@@ -1,0 +1,19 @@
+.techs__container {
+  max-width: 1140px;
+  border-top: 1px solid #dadada;
+  margin: 25px auto 0;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 1024px) {
+  .techs__container {
+    width: 86.9%;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .techs__container {
+    width: 88.75%;
+    margin-top: 28px;
+  }
+}

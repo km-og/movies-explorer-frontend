@@ -1,0 +1,22 @@
+.footer__container {
+  border-top: 1px solid #424242;
+  margin: 21px 0 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 22px 0;
+}
+
+@media screen and (max-width: 1024px) {
+  .footer__container {
+    margin-top: 20px;
+    padding-bottom: 21px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .footer__container {
+    margin-top: 22px;
+    flex-direction: column;
+    padding: 32px 0 20px;
+  }
+}

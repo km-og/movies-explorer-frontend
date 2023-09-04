@@ -1,0 +1,21 @@
+.search__btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 5px;
+  border: none;
+  background: url("../../../images/search__icon-in-btn.svg") no-repeat #4285f4
+    7px 7px;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 1024px) {
+  .search__btn {
+    width: 47px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .search__btn {
+    width: 51px;
+  }
+}

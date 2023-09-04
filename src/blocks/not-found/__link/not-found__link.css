@@ -1,0 +1,15 @@
+.not-found__link {
+  color: #4285f4;
+  display: block;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1;
+  margin: 188px 0 0;
+}
+
+@media screen and (max-width: 767px) {
+  .not-found__link {
+    font-size: 12px;
+    margin: 287px 0 0;
+  }
+}

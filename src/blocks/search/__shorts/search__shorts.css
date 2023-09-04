@@ -1,0 +1,10 @@
+.search__shorts {
+  position: relative;
+  margin: 0 14px 0 34px;
+}
+
+@media screen and (max-width: 1024px) {
+  .search__shorts {
+    margin: 0 13px 0 34px;
+  }
+}

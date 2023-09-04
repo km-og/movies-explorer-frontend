@@ -1,0 +1,20 @@
+.description {
+  max-width: 1140px;
+  width: 89%;
+  margin: 112px auto 0;
+}
+
+@media screen and (max-width: 1024px) {
+  .description {
+    width: 86.9%;
+    margin-top: 92px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .description {
+    min-width: 284px;
+    width: 88.75%;
+    margin-top: 72px;
+  }
+}

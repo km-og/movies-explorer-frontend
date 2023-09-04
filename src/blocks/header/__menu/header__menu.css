@@ -1,0 +1,21 @@
+.header__menu {
+  display: none;
+}
+
+@media screen and (max-width: 1024px) {
+  .header__menu {
+    display: block;
+    background: url("../../../images/header__icon.svg") no-repeat center;
+    background-size: 100% 100%;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .header__menu {
+    width: 37px;
+    height: 46px;
+  }
+}

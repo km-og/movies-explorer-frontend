@@ -1,0 +1,11 @@
+.auth__link {
+  text-decoration: none;
+  color: #4285f4;
+  margin-left: 6px;
+}
+
+@media screen and (max-width: 767px) {
+  .auth__link {
+    margin-left: 7px;
+  }
+}

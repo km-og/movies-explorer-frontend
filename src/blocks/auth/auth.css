@@ -1,0 +1,19 @@
+.auth {
+  margin: 0 auto;
+  padding: 70px 0;
+  max-width: 396px;
+  width: 100%;
+}
+
+@media screen and (max-width: 1024px) {
+  .auth {
+    padding: 232px 0;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .auth {
+    padding: 56px 0 30px;
+    max-width: 260px;
+  }
+}

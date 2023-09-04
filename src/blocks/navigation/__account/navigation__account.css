@@ -1,0 +1,16 @@
+.navigation__account {
+  background-color: #313131;
+  display: block;
+  max-width: 60px;
+  padding: 8px 22px 10px;
+  border-radius: 20px;
+  text-align: center;
+  margin: 0 auto;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.1;
+}

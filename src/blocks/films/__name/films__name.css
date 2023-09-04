@@ -1,0 +1,24 @@
+.films__name {
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 1.2;
+  margin: 12px 0 0;
+}
+
+@media screen and (max-width: 1024px) {
+  .films__name {
+    margin-top: 23px;
+    max-width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .films__name {
+    margin-top: 13px;
+    max-width: 240px;
+    font-size: 12px;
+  }
+}

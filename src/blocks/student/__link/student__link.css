@@ -1,0 +1,19 @@
+.student__link {
+  margin: 101px 0 0;
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+@media screen and (max-width: 1024px) {
+  .student__link {
+    margin-top: 89px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .student__link {
+    margin-top: 42px;
+  }
+}

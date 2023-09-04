@@ -1,0 +1,16 @@
+.profile__exit {
+  text-decoration: none;
+  margin: 18px 0 0;
+  border: none;
+  color: #ee3465;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 1;
+  text-align: center;
+}
+
+@media screen and (max-width: 767px) {
+  .profile__exit {
+    font-size: 12px;
+  }
+}

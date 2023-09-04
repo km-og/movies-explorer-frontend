@@ -1,0 +1,20 @@
+.student {
+  max-width: 1140px;
+  width: 89%;
+  margin: 113px auto 0;
+}
+
+@media screen and (max-width: 1024px) {
+  .student {
+    width: 86.9%;
+    margin-top: 93px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .student {
+    min-width: 292px;
+    width: 91.25%;
+    margin-top: 53px;
+  }
+}

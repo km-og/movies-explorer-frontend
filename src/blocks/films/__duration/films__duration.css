@@ -1,0 +1,24 @@
+.films__duration {
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 0.9;
+  color: #8b8b8b;
+  background-color: #2f2f2f;
+  border-radius: 3px;
+  width: 44px;
+  text-align: center;
+  padding: 4px;
+  margin: 10px 0 0;
+}
+
+@media screen and (max-width: 1024px) {
+  .films__duration {
+    margin-top: 22px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .films__duration {
+    margin-top: 12px;
+  }
+}

@@ -1,0 +1,10 @@
+.profile__label {
+  max-width: 141px;
+  width: 100%;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 1;
+  position: absolute;
+  top: 19px;
+  left: 0;
+}

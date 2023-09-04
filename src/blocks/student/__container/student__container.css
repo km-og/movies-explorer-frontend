@@ -1,0 +1,22 @@
+.student__container {
+  border-top: 1px solid #dadada;
+  margin: 25px 0 0;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  padding: 66px 0 0;
+}
+
+@media screen and (max-width: 1024px) {
+  .student__container {
+    padding-top: 66px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .student__container {
+    margin-top: 29px;
+    padding-top: 60px;
+    flex-direction: column;
+  }
+}

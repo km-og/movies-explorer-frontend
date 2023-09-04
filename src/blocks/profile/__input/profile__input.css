@@ -1,0 +1,12 @@
+.profile__input {
+  font-family: inherit;
+  text-align: end;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 1;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  color: #ffffff;
+  width: 100%;
+  padding: 17px 0 16px;
+}

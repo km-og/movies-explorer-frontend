@@ -1,0 +1,22 @@
+.navigation {
+  display: none;
+}
+
+@media screen and (max-width: 1024px) {
+  .navigation {
+    display: block;
+    width: 67.7%;
+    background-color: #202020;
+    z-index: 99;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .navigation {
+    width: 100%;
+  }
+}
