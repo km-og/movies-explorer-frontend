@@ -39,7 +39,7 @@ function Header({ loggedIn }) {
           </a>
           <a
             href="/signin"
-            className="header__auth header__auth_name_signin link"
+            className="header__auth header__auth_name_signin cursor"
           >
             Войти
           </a>

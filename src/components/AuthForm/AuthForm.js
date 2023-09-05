@@ -9,7 +9,7 @@ function AuthForm({
   textLink,
 }) {
   return (
-    <section className="auth">
+    <div className="auth">
       <a href="/" className="link">
         <img className="auth__logo" src={logo} alt="логотип" />
       </a>
@@ -72,7 +72,7 @@ function AuthForm({
           </p>
         </div>
       </form>
-    </section>
+    </div>
   );
 }
 

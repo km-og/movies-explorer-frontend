@@ -4,7 +4,7 @@
   max-height: 201px;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   position: relative;
 }
 

@@ -9,6 +9,7 @@ function SearchForm() {
             min="2"
             name="inputFilm"
             placeholder="Фильм"
+            required
           />
           <button type="submit" className="search__btn cursor"></button>
         </div>

@@ -3,7 +3,7 @@ function Profile() {
   const email = "pochta@yandex.ru";
 
   return (
-    <section className="profile">
+    <div className="profile">
       <h2 className="profile__title">Привет, {name}!</h2>
       <form className="profile__form">
         <div className="profile__input-box">
@@ -44,7 +44,7 @@ function Profile() {
           Выйти из аккаунта
         </a>
       </form>
-    </section>
+    </div>
   );
 }
 

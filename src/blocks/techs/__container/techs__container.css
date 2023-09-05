@@ -1,5 +1,6 @@
 .techs__container {
   max-width: 1140px;
+  width: 89%;
   border-top: 1px solid #dadada;
   margin: 25px auto 0;
   box-sizing: border-box;
