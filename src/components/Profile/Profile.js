@@ -1,6 +1,19 @@
+import { useNavigate } from "react-router-dom";
+
 function Profile() {
   const name = "Виталий";
   const email = "pochta@yandex.ru";
+
+  const navigate = useNavigate();
+
+  function signOut() {
+    if (localStorage.getItem("films")) {
+      localStorage.removeItem("films");
+      localStorage.removeItem("textFromRequest");
+      localStorage.removeItem("shortsIsActive");
+    }
+    navigate("/signin");
+  }
 
   return (
     <div className="profile">
@@ -40,7 +53,7 @@ function Profile() {
         <button type="submit" className="profile__btn cursor">
           Редактировать
         </button>
-        <a href="/signin" className="profile__exit">
+        <a href="/signin" className="profile__exit" onClick={signOut}>
           Выйти из аккаунта
         </a>
       </form>

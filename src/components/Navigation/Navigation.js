@@ -1,10 +1,11 @@
-function Navigation() {
+function Navigation({ handleClick }) {
   return (
     <div className="navigation">
       <button
         type="button"
         aria-label="Закрыть"
         className="navigation__btn cursor"
+        onClick={handleClick}
       ></button>
       <nav>
         <ul className="navigation__list">

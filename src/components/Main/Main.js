@@ -6,13 +6,13 @@ import Techs from "../Techs/Techs.js";
 
 function Main() {
   return (
-    <main className="content">
+    <>
       <Promo />
       <AboutProject />
       <Techs />
       <AboutMe />
       <Portfolio />
-    </main>
+    </>
   );
 }
 

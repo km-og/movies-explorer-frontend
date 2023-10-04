@@ -1,85 +1,108 @@
-import { Route, Routes } from "react-router-dom";
-import Footer from "../Footer/Footer";
-import Header from "../Header/Header";
+import { useState, useEffect } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Login from "../Login/Login";
-import Main from "../Main/Main";
-import Movies from "../Movies/Movies";
-import Navigation from "../Navigation/Navigation";
-import Preloader from "../Preloader/Preloader.js";
-import Profile from "../Profile/Profile";
 import Register from "../Register/Register";
-import SavedMovies from "../SavedMovies/SavedMovies";
 import PageNotFound from "../PageNotFound/PageNotFound";
-
+import MainAfterLogin from "../MainAfterLogin/MainAfterLogin";
+import Main from "../Main/Main";
+import Movies from "../Movies/Movies.js";
+import Profile from "../Profile/Profile";
+import SavedMovies from "../SavedMovies/SavedMovies";
+import ProtectedRouteElement from "../ProtectedRoute/ProtectedRoute.js";
+import * as Auth from "../Auth/Auth";
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [isSavedMovies, setIsSavedMovies] = useState([]);
+  const [isError, setIsError] = useState("");
+  const navigate = useNavigate();
+
+  function handleSaveMovies(savedMovies) {
+    setIsSavedMovies([...isSavedMovies, savedMovies]);
+  }
+  // СДЕЛАТЬ в навигационном меню активные ссылки
+
+  function handleSubmitRegister(props) {
+    const { userName: name, userEmail: email, userPassword: password } = props;
+    Auth.register(name, email, password)
+      .then((res) => {
+        setLoggedIn(true);
+        navigate("/movies", { replace: true });
+        console.log(res);
+        return res;
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsError(err);
+      });
+  }
+
+  function handleSubmitLogin(props) {
+    const { userEmail: email, userPassword: password } = props;
+    Auth.authorize(email, password)
+      .then((res) => {
+        console.log(res);
+        if (res.token) {
+          setLoggedIn(true);
+
+          navigate("/movies", { replace: true });
+          return res;
+        }
+      })
+      .catch((err) => {
+        setIsError(err);
+      });
+  }
+
   return (
     <div className="page">
       <Routes>
         <Route
-          path="/"
-          element={
-            <>
-              <Header loggedIn={false} />
-              <Main />
-              <Footer />
-            </>
-          }
-        />
-
-        <Route
-          path="/movies"
-          element={
-            <>
-              {/* <Navigation /> */}
-              <Header loggedIn={true} />
-              <Movies />
-              <Footer />
-            </>
-          }
-        />
-
-        <Route
-          path="/saved-movies"
-          element={
-            <>
-              {/* <Navigation /> */}
-              <Header loggedIn={true} />
-              <SavedMovies />
-              <Footer />
-            </>
-          }
-        />
-
-        <Route
-          path="/profile"
-          element={
-            <>
-              {/* <Navigation /> */}
-              <Header loggedIn={true} />
-              <Profile />
-            </>
-          }
-        />
-
-        <Route
           path="/signin"
           element={
-            <>
-              <Login />
-            </>
+            <Login handleSubmitLogin={handleSubmitLogin} isError={isError} />
           }
         />
-
         <Route
           path="/signup"
           element={
-            <>
-              <Register />
-            </>
+            <Register
+              handleSubmitRegister={handleSubmitRegister}
+              isError={isError}
+            />
           }
         />
+
+        <Route path="/" element={<MainAfterLogin loggedIn={loggedIn} />}>
+          <Route
+            path="movies"
+            element={
+              <ProtectedRouteElement
+                element={<Movies />}
+                loggedIn={loggedIn}
+                handleSaveMovies={handleSaveMovies}
+              />
+            }
+          />
+          <Route
+            path="saved-movies"
+            element={
+              <ProtectedRouteElement
+                element={<SavedMovies />}
+                loggedIn={loggedIn}
+              />
+            }
+          />
+          <Route
+            path="profile"
+            element={
+              <ProtectedRouteElement
+                element={<Profile />}
+                loggedIn={loggedIn}
+              />
+            }
+          />
+        </Route>
         <Route path="*" element={<PageNotFound />} />
-        {/* <Preloader /> */}
       </Routes>
     </div>
   );

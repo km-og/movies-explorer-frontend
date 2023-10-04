@@ -1,0 +1,9 @@
+.search__text-error {
+  position: absolute;
+  top: 60px;
+  left: 16px;
+  color: red;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.2;
+}

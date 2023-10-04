@@ -5,8 +5,10 @@
   position: absolute;
   top: 14px;
   right: 14px;
+  border: none;
 }
 
-.films__preview:hover ~ .films__icon-save {
+.films__icon-save:hover {
+  /* .films__preview:hover ~ .films__icon-save:hover { */
   background: url("../../../images/films__icon-deleted.svg") center no-repeat;
 }

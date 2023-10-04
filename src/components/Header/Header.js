@@ -1,6 +1,18 @@
+import { useEffect, useState } from "react";
 import logo from "../../images/header-logo.svg";
+import Navigation from "../Navigation/Navigation";
 
 function Header({ loggedIn }) {
+  const [isNavigationMenu, setIsNavigationMenu] = useState(false);
+
+  function handleNavigationMenuShow() {
+    setIsNavigationMenu(true);
+  }
+
+  function handleNavigationMenuHide() {
+    setIsNavigationMenu(false);
+  }
+
   return (
     <header className="header">
       <a href="/" className="header__link link">
@@ -30,7 +42,15 @@ function Header({ loggedIn }) {
               Аккаунт
             </a>
           </nav>
-          <div className="header__menu cursor"></div>
+          <div
+            className="header__menu cursor"
+            onClick={handleNavigationMenuShow}
+          ></div>
+          {isNavigationMenu ? (
+            <Navigation handleClick={handleNavigationMenuHide} />
+          ) : (
+            ""
+          )}
         </>
       ) : (
         <nav className="header__box">

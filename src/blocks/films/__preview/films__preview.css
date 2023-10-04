@@ -1,23 +1,21 @@
 .films__preview {
   border-radius: 6px;
-  max-width: 360px;
   max-height: 201px;
   width: 100%;
   height: 100%;
   object-fit: cover;
   position: relative;
+  margin: 0 auto;
 }
 
 @media screen and (max-width: 1024px) {
   .films__preview {
-    max-width: 339px;
     max-height: 190px;
   }
 }
 
 @media screen and (max-width: 767px) {
   .films__preview {
-    max-width: 300px;
     max-height: 169px;
   }
 }

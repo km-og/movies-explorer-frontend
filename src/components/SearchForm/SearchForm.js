@@ -1,16 +1,32 @@
-function SearchForm() {
+function SearchForm({ isValid, onChange, onSubmit, onChangeCheckbox, value }) {
   return (
     <section className="search">
-      <form className="search__form" id="searchForm" name="searchForm">
+      <form
+        className="search__form"
+        id="searchForm"
+        name="searchForm"
+        onSubmit={onSubmit}
+      >
         <div className="search__container">
-          <input
-            className="search__input"
-            type="text"
-            min="2"
-            name="inputFilm"
-            placeholder="Фильм"
-            required
-          />
+          <label className="search__input-box">
+            <input
+              className="search__input"
+              type="text"
+              minLength="2"
+              maxLength="200"
+              name="inputFilm"
+              placeholder="Фильм"
+              onChange={onChange}
+              value={value || ""}
+            />
+            {isValid ? (
+              ""
+            ) : (
+              <span className="search__text-error">
+                Нужно ввести ключевое слово
+              </span>
+            )}
+          </label>
           <button type="submit" className="search__btn cursor"></button>
         </div>
         <div className="search__box">
@@ -19,10 +35,11 @@ function SearchForm() {
               type="checkbox"
               id="search-checkbox"
               className="search__checkbox"
+              onChange={onChangeCheckbox}
             />
             <span className="search__slider "></span>
           </label>
-          <label for="search-checkbox" className="search__label">
+          <label htmlFor="search-checkbox" className="search__label">
             Короткометражки
           </label>
         </div>

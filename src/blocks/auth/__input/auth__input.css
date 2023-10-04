@@ -8,6 +8,7 @@
   border: none;
   border-radius: 8px;
   margin: 11px 0 21px;
+  color: #ffffff;
 }
 
 .auth__input:focus {
