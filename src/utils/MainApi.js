@@ -9,7 +9,6 @@ class MainApi {
   _checkingStatus(response) {
     if (response.ok) {
       console.log(response);
-
       return response.json();
     } else {
       return Promise.reject(new Error("Что-то пошло не так..."));
@@ -18,28 +17,77 @@ class MainApi {
 
   // получить данные с сервера
 
-  getData() {
-    return fetch(`${this._url}`, {
-      method: "GET",
-      headers: this._headers,
+  // getData() {
+  //   return fetch(`${this._url}`, {
+  //     method: "GET",
+  //     headers: this._headers,
+  //   }).then((response) => {
+  //     return this._checkingStatus(response);
+  //   });
+  // }
+
+  // отправить данные на сервер
+
+  sendData(name, email, token, methodType) {
+    return fetch(`${this._url}/users/me`, {
+      method: methodType,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ name, email }),
     }).then((response) => {
+      console.log(response);
       return this._checkingStatus(response);
     });
   }
 
   // поставить лайк и сохранить
 
-  saveMovie(id) {
+  saveMovie(
+    {
+      country,
+      director,
+      duration,
+      year,
+      description,
+      trailerLink,
+      nameRU,
+      nameEN,
+    },
+    image,
+    thumbnail,
+    token,
+    owner
+  ) {
     return fetch(`${this._url}/movies`, {
       method: "POST",
-      headers: this._headers,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        country,
+        director,
+        duration,
+        year,
+        description,
+        image,
+        trailerLink,
+        thumbnail,
+        nameRU,
+        nameEN,
+        owner,
+      }),
     }).then((response) => {
       return this._checkingStatus(response);
     });
   }
 
   deleteMovie(id) {
-    return fetch(`${this._url}/movies`, {
+    return fetch(`${this._url}/movies/${id}`, {
       method: "DELETE",
       headers: this._headers,
     }).then((response) => {

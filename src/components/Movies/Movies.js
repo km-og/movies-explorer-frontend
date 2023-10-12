@@ -1,15 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SearchForm from "../SearchForm/SearchForm";
 import { apiMovies } from "../../utils/MoviesApi";
 import { apiMain } from "../../utils/MainApi";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function Movies({ handleSaveMovies }) {
   const [isValid, setIsValid] = useState(true);
   const [formValue, setFormValue] = useState("");
-  // const [formValue, setFormValue] = useState({
-  //   inputFilm: "",
-  // });
   const [isLoading, setIsLoading] = useState(false);
   const [isErr, setIsErr] = useState(false);
   const [filmsArr, setFilmsArr] = useState([]);
@@ -17,6 +15,7 @@ function Movies({ handleSaveMovies }) {
   const [shortsIsActive, setShortsIsActive] = useState(false);
   // const [isSaved, setIsSaved] = useState(false);
   let intermediateListOfFilms = [];
+  const currentUser = useContext(CurrentUserContext);
 
   useEffect(() => {
     function getDataFromLocalStorage() {
@@ -52,6 +51,7 @@ function Movies({ handleSaveMovies }) {
     setIsLoading(true);
     if (formValue === "") {
       setIsValid(false);
+      setIsLoading(false);
       return;
     }
     setIsValid(true);
@@ -69,16 +69,46 @@ function Movies({ handleSaveMovies }) {
   }
 
   function handleSearchChange(e) {
-    // const { name, value } = e.target;
-    // setFormValue({ ...formValue, [name]: value });
     setFormValue(e.target.value);
   }
 
   function handleMovieLike(movie) {
+    console.log(currentUser);
     console.log(movie);
+    const token = localStorage.getItem("token");
+    const image = `https://api.nomoreparties.co${movie.image.url}`;
+    const thumbnail = `https://api.nomoreparties.co${movie.image.previewUrl}`;
+    const owner = currentUser.id;
+    const {
+      country,
+      director,
+      duration,
+      year,
+      description,
+      trailerLink,
+      nameRU,
+      nameEN,
+    } = movie;
+
     // setIsSaved(true);
     apiMain
-      .saveMovie(movie.id)
+      .saveMovie(
+        {
+          country,
+          director,
+          duration,
+          year,
+          description,
+          trailerLink,
+          nameRU,
+          nameEN,
+          thumbnail,
+        },
+        image,
+        thumbnail,
+        token,
+        owner
+      )
       .then((newMovie) => {
         console.log(newMovie);
         handleSaveMovies((state) => {

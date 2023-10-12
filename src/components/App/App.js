@@ -10,15 +10,33 @@ import Profile from "../Profile/Profile";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import ProtectedRouteElement from "../ProtectedRoute/ProtectedRoute.js";
 import * as Auth from "../Auth/Auth";
+import { apiMain } from "../../utils/MainApi";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
   const [isSavedMovies, setIsSavedMovies] = useState([]);
+  const [currentUser, setCurrentUser] = useState({
+    name: "",
+    email: "",
+  });
+
   const [isError, setIsError] = useState("");
+  const [isQueryResultUpdateInfo, setIsQueryResultUpdateInfo] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    tokenCheck();
+  }, []);
+
+  useEffect(() => {
+    tokenCheck();
+  }, [loggedIn]);
 
   function handleSaveMovies(savedMovies) {
     setIsSavedMovies([...isSavedMovies, savedMovies]);
   }
+
   // СДЕЛАТЬ в навигационном меню активные ссылки
 
   function handleSubmitRegister(props) {
@@ -27,11 +45,9 @@ function App() {
       .then((res) => {
         setLoggedIn(true);
         navigate("/movies", { replace: true });
-        console.log(res);
         return res;
       })
       .catch((err) => {
-        console.log(err);
         setIsError(err);
       });
   }
@@ -40,10 +56,8 @@ function App() {
     const { userEmail: email, userPassword: password } = props;
     Auth.authorize(email, password)
       .then((res) => {
-        console.log(res);
         if (res.token) {
           setLoggedIn(true);
-
           navigate("/movies", { replace: true });
           return res;
         }
@@ -53,58 +67,126 @@ function App() {
       });
   }
 
-  return (
-    <div className="page">
-      <Routes>
-        <Route
-          path="/signin"
-          element={
-            <Login handleSubmitLogin={handleSubmitLogin} isError={isError} />
+  function tokenCheck() {
+    const token = localStorage.getItem("token");
+    if (token) {
+      Auth.getContent(token)
+        .then((res) => {
+          if (res) {
+            setLoggedIn(true);
+            const userData = {
+              name: res.data.name,
+              email: res.data.email,
+              id: res.data._id,
+            };
+            setCurrentUser(userData);
+            return res;
           }
-        />
-        <Route
-          path="/signup"
-          element={
-            <Register
-              handleSubmitRegister={handleSubmitRegister}
-              isError={isError}
-            />
-          }
-        />
+        })
+        .catch((err) => {
+          console.log(err);
+          setIsLoading(false);
+        });
+    } else {
+      setIsLoading(false);
+    }
+  }
 
-        <Route path="/" element={<MainAfterLogin loggedIn={loggedIn} />}>
+  function handleChangeUserInfo(e) {
+    const { name, value } = e.target;
+    setCurrentUser({ ...currentUser, [name]: value });
+  }
+
+  function handleUpdateProfile(e) {
+    const token = localStorage.getItem("token");
+    const { name, email } = currentUser;
+
+    apiMain
+      .sendData(name, email, token, "PATCH")
+      .then((newData) => {
+        console.log(newData);
+        setIsQueryResultUpdateInfo("Запрос прошел успешно");
+        setCurrentUser({ ...currentUser, newData });
+      })
+      .catch((err) => {
+        setIsQueryResultUpdateInfo("Что-то пошло не так...");
+        console.log(err);
+      });
+  }
+
+  function changeOnExit() {
+    setLoggedIn(false);
+    setIsLoading(false);
+  }
+
+  return (
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="page">
+        <Routes>
           <Route
-            path="movies"
+            path="/signin"
             element={
-              <ProtectedRouteElement
-                element={<Movies />}
-                loggedIn={loggedIn}
-                handleSaveMovies={handleSaveMovies}
-              />
+              <Login handleSubmitLogin={handleSubmitLogin} isError={isError} />
             }
           />
           <Route
-            path="saved-movies"
+            path="/signup"
             element={
-              <ProtectedRouteElement
-                element={<SavedMovies />}
-                loggedIn={loggedIn}
+              <Register
+                handleSubmitRegister={handleSubmitRegister}
+                isError={isError}
               />
             }
           />
-          <Route
-            path="profile"
-            element={
-              <ProtectedRouteElement
-                element={<Profile />}
-                loggedIn={loggedIn}
-              />
-            }
-          />
-        </Route>
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
-    </div>
+
+          <Route path="/" element={<MainAfterLogin loggedIn={loggedIn} />}>
+            <Route
+              path=""
+              element={
+                <Main loggedIn={loggedIn} handleSaveMovies={handleSaveMovies} />
+              }
+            />
+            <Route
+              path="movies"
+              element={
+                <ProtectedRouteElement
+                  element={Movies}
+                  loggedIn={loggedIn}
+                  isLoading={isLoading}
+                  handleSaveMovies={handleSaveMovies}
+                />
+              }
+            />
+            <Route
+              path="saved-movies"
+              element={
+                <ProtectedRouteElement
+                  element={SavedMovies}
+                  isLoading={isLoading}
+                  loggedIn={loggedIn}
+                />
+              }
+            />
+            <Route
+              path="profile"
+              element={
+                <ProtectedRouteElement
+                  element={Profile}
+                  loggedIn={loggedIn}
+                  isLoading={isLoading}
+                  userInfo={currentUser}
+                  onChangeInput={handleChangeUserInfo}
+                  isQueryResult={isQueryResultUpdateInfo}
+                  onSubmitForm={handleUpdateProfile}
+                  onSignOut={changeOnExit}
+                />
+              }
+            />
+          </Route>
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 

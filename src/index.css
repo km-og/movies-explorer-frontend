@@ -101,6 +101,7 @@
 @import url(./blocks/profile/__input/profile__input.css);
 @import url(./blocks/profile/__border/profile__border.css);
 @import url(./blocks/profile/__btn/profile__btn.css);
+@import url(./blocks/profile/__btn/_type/profile__btn_type_inactive.css);
 @import url(./blocks/profile/__exit/profile__exit.css);
 
 @import url(./blocks/navigation/navigation.css);

@@ -2,10 +2,10 @@ import { Outlet } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 
-function MainAfterLogin({ loggedIn }) {
+function MainAfterLogin({ loggedIn, onClick }) {
   return (
     <>
-      <Header loggedIn={loggedIn} />
+      <Header loggedIn={loggedIn} onClick={onClick} />
       <main>
         <Outlet />
       </main>

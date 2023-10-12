@@ -11,10 +11,21 @@ function MoviesCardList({
   onMovieDislike,
   // isSaved,
 }) {
-  const totalCards = films.length;
+  // const totalCards = films.length;
+  const [totalCards, setTotalCards] = useState(0);
+  const [arrFilms, setArrFilms] = useState(0);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [cardsToShow, setCardsToShow] = useState(12);
-  let arrFilms = films.slice(0, cardsToShow);
+  // let arrFilms = films.slice(0, cardsToShow);
+  useEffect(() => {
+    console.log(films);
+    if (films) {
+      setTotalCards(films.length);
+      setArrFilms(films.slice(0, cardsToShow));
+    }
+    console.log(films);
+    // films ? setTotalCards(films.length) : console.lof(films);
+  }, [films]);
 
   useEffect(() => {
     if (windowWidth >= 1025) {
@@ -51,7 +62,8 @@ function MoviesCardList({
             </p>
           ) : (
             <>
-              {films.length === 0 ? (
+              {totalCards === 0 ? (
+                // {films.length === 0 ? (
                 <p className="films__not-found">Ничего не найдено</p>
               ) : (
                 <>

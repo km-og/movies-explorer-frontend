@@ -14,8 +14,6 @@ class MoviesApi {
     }
   }
 
-  // получить данные с сервера
-
   getData() {
     return fetch(`${this._url}`, {
       method: "GET",
