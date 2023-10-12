@@ -34,6 +34,7 @@ function App() {
   }, [loggedIn]);
 
   function handleSaveMovies(savedMovies) {
+    console.log(savedMovies);
     setIsSavedMovies([...isSavedMovies, savedMovies]);
   }
 
@@ -119,6 +120,26 @@ function App() {
     setIsLoading(false);
   }
 
+  function handleMovieDislike(movie) {
+    console.log(movie);
+    const token = localStorage.getItem("token");
+    // setIsSaved(false);
+    apiMain
+      .deleteMovie(movie.id, token)
+      .then((newMovie) => {
+        console.log(newMovie);
+        handleSaveMovies((state) => {
+          const newState = state.filter((item) => {
+            return item.id !== movie.id;
+          });
+          return newState;
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -154,6 +175,7 @@ function App() {
                   loggedIn={loggedIn}
                   isLoading={isLoading}
                   handleSaveMovies={handleSaveMovies}
+                  onMovieDislike={handleMovieDislike}
                 />
               }
             />
@@ -164,6 +186,8 @@ function App() {
                   element={SavedMovies}
                   isLoading={isLoading}
                   loggedIn={loggedIn}
+                  isSavedMovies={isSavedMovies}
+                  onMovieDislike={handleMovieDislike}
                 />
               }
             />

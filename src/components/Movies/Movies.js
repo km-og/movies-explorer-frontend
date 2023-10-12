@@ -5,7 +5,7 @@ import { apiMovies } from "../../utils/MoviesApi";
 import { apiMain } from "../../utils/MainApi";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-function Movies({ handleSaveMovies }) {
+function Movies({ handleSaveMovies, onMovieDislike }) {
   const [isValid, setIsValid] = useState(true);
   const [formValue, setFormValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -73,11 +73,10 @@ function Movies({ handleSaveMovies }) {
   }
 
   function handleMovieLike(movie) {
-    console.log(currentUser);
     console.log(movie);
     const token = localStorage.getItem("token");
     const image = `https://api.nomoreparties.co${movie.image.url}`;
-    const thumbnail = `https://api.nomoreparties.co${movie.image.previewUrl}`;
+    const thumbnail = `https://api.nomoreparties.co${movie.image.url}`;
     const owner = currentUser.id;
     const {
       country,
@@ -89,7 +88,6 @@ function Movies({ handleSaveMovies }) {
       nameRU,
       nameEN,
     } = movie;
-
     // setIsSaved(true);
     apiMain
       .saveMovie(
@@ -111,31 +109,14 @@ function Movies({ handleSaveMovies }) {
       )
       .then((newMovie) => {
         console.log(newMovie);
-        handleSaveMovies((state) => {
-          // массив со всеми карточками
-          console.log(state);
-          // console.log(m)  каждая карточка этого массива
-          state.map((m) => (m.id === movie.id ? newMovie : m));
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  function handleMovieDislike(movie) {
-    console.log(movie);
-    // setIsSaved(false);
-    apiMain
-      .deleteMovie(movie.id)
-      .then((newMovie) => {
-        console.log(newMovie);
-        handleSaveMovies((state) => {
-          const newState = state.filter((item) => {
-            return item.id !== movie.id;
-          });
-          return newState;
-        });
+        // newMovie.isSaved = isSaved;
+        handleSaveMovies(newMovie);
+        // handleSaveMovies((state) => {
+        //   // массив со всеми карточками
+        //   console.log(state);
+        //   // console.log(m)  каждая карточка этого массива
+        //   state.map((m) => (m.id === movie.id ? newMovie : m));
+        // });
       })
       .catch((err) => {
         console.log(err);
@@ -156,7 +137,7 @@ function Movies({ handleSaveMovies }) {
         isLoading={isLoading}
         isErr={isErr}
         onMovieLike={handleMovieLike}
-        onMovieDislike={handleMovieDislike}
+        onMovieDislike={onMovieDislike}
         // isSaved={isSaved}
       />
     </div>

@@ -17,14 +17,18 @@ class MainApi {
 
   // получить данные с сервера
 
-  // getData() {
-  //   return fetch(`${this._url}`, {
-  //     method: "GET",
-  //     headers: this._headers,
-  //   }).then((response) => {
-  //     return this._checkingStatus(response);
-  //   });
-  // }
+  getData(token, owner) {
+    return fetch(`${this._url}/movies`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((response) => {
+      return this._checkingStatus(response);
+    });
+  }
 
   // отправить данные на сервер
 
@@ -86,10 +90,14 @@ class MainApi {
     });
   }
 
-  deleteMovie(id) {
+  deleteMovie(id, token) {
     return fetch(`${this._url}/movies/${id}`, {
       method: "DELETE",
-      headers: this._headers,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     }).then((response) => {
       return this._checkingStatus(response);
     });
@@ -98,9 +106,6 @@ class MainApi {
 
 const configApiMain = {
   url: "https://api.km-og.nomoreparties.co",
-  headers: {
-    "Content-Type": "application/json",
-  },
 };
 
 const apiMain = new MainApi(configApiMain);

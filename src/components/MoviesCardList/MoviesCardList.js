@@ -18,13 +18,10 @@ function MoviesCardList({
   const [cardsToShow, setCardsToShow] = useState(12);
   // let arrFilms = films.slice(0, cardsToShow);
   useEffect(() => {
-    console.log(films);
     if (films) {
       setTotalCards(films.length);
       setArrFilms(films.slice(0, cardsToShow));
     }
-    console.log(films);
-    // films ? setTotalCards(films.length) : console.lof(films);
   }, [films]);
 
   useEffect(() => {
