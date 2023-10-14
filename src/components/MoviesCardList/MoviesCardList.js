@@ -9,6 +9,7 @@ function MoviesCardList({
   isErr,
   onMovieLike,
   onMovieDislike,
+  isSavedMovies,
   // isSaved,
 }) {
   // const totalCards = films.length;
@@ -19,10 +20,10 @@ function MoviesCardList({
   // let arrFilms = films.slice(0, cardsToShow);
   useEffect(() => {
     if (films) {
-      setTotalCards(films.length);
-      setArrFilms(films.slice(0, cardsToShow));
+      setTotalCards(Object.values(films).length);
+      setArrFilms(Object.values(films).slice(0, cardsToShow));
     }
-  }, [films]);
+  }, [films, cardsToShow]);
 
   useEffect(() => {
     if (windowWidth >= 1025) {
@@ -67,8 +68,9 @@ function MoviesCardList({
                   <ul className="films__list">
                     {arrFilms.map((film) => (
                       <MoviesCard
+                        isSavedMovies={isSavedMovies}
                         film={film}
-                        key={film.id}
+                        key={film.id || film._id}
                         // isSaved={isSaved}
                         onMovieLike={onMovieLike}
                         onMovieDislike={onMovieDislike}

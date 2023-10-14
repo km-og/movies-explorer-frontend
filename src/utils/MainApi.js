@@ -6,10 +6,9 @@ class MainApi {
 
   // проверка статуса ответа сервера
 
-  _checkingStatus(response) {
-    if (response.ok) {
-      console.log(response);
-      return response.json();
+  _checkingStatus(res) {
+    if (res.ok) {
+      return res.json();
     } else {
       return Promise.reject(new Error("Что-то пошло не так..."));
     }
@@ -17,7 +16,24 @@ class MainApi {
 
   // получить данные с сервера
 
-  getData(token, owner) {
+  getContent(token) {
+    return fetch(`${this._url}/users/me`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        return this._checkingStatus(res);
+      })
+      .then((res) => {
+        return res;
+      });
+  }
+
+  getData(token) {
     return fetch(`${this._url}/movies`, {
       method: "GET",
       headers: {
@@ -25,8 +41,8 @@ class MainApi {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-    }).then((response) => {
-      return this._checkingStatus(response);
+    }).then((res) => {
+      return this._checkingStatus(res);
     });
   }
 
@@ -41,9 +57,9 @@ class MainApi {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ name, email }),
-    }).then((response) => {
-      console.log(response);
-      return this._checkingStatus(response);
+    }).then((res) => {
+      console.log(res);
+      return this._checkingStatus(res);
     });
   }
 
@@ -85,8 +101,8 @@ class MainApi {
         nameEN,
         owner,
       }),
-    }).then((response) => {
-      return this._checkingStatus(response);
+    }).then((res) => {
+      return this._checkingStatus(res);
     });
   }
 
@@ -98,8 +114,8 @@ class MainApi {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-    }).then((response) => {
-      return this._checkingStatus(response);
+    }).then((res) => {
+      return this._checkingStatus(res);
     });
   }
 }

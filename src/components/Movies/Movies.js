@@ -5,7 +5,7 @@ import { apiMovies } from "../../utils/MoviesApi";
 import { apiMain } from "../../utils/MainApi";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-function Movies({ handleSaveMovies, onMovieDislike }) {
+function Movies({ isSavedMovies, onMovieDislike, onMovieLike }) {
   const [isValid, setIsValid] = useState(true);
   const [formValue, setFormValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -14,7 +14,7 @@ function Movies({ handleSaveMovies, onMovieDislike }) {
   const [films, setFilms] = useState([]);
   const [shortsIsActive, setShortsIsActive] = useState(false);
   // const [isSaved, setIsSaved] = useState(false);
-  let intermediateListOfFilms = [];
+
   const currentUser = useContext(CurrentUserContext);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ function Movies({ handleSaveMovies, onMovieDislike }) {
       if (localStorage.getItem("textFromRequest") !== null) {
         setFormValue(localStorage.getItem("textFromRequest"));
         setFilms(JSON.parse(localStorage.getItem("films")));
-        setShortsIsActive(localStorage.getItem("shortsIsActive"));
+        setShortsIsActive(JSON.parse(localStorage.getItem("shortsIsActive")));
         return;
       }
     }
@@ -42,11 +42,30 @@ function Movies({ handleSaveMovies, onMovieDislike }) {
     getCards();
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem("shortsIsActive", JSON.stringify(shortsIsActive));
+    localStorage.setItem("textFromRequest", formValue);
+    localStorage.setItem("films", JSON.stringify(films));
+  }, [shortsIsActive, films]);
+
   function handleChangeCheckbox() {
-    setShortsIsActive(true);
+    setShortsIsActive((value) => {
+      if (!value) {
+        const newState = films.filter((film) => film.duration <= 40);
+        setFilms(newState);
+      } else {
+        setFilms(
+          filmsArr.filter((film) =>
+            film.nameRU.toLowerCase().includes(formValue.toLowerCase())
+          )
+        );
+      }
+      return !value;
+    });
   }
 
   function handleSearchSubmit(e) {
+    let intermediateListOfFilms = [];
     e.preventDefault();
     setIsLoading(true);
     if (formValue === "") {
@@ -61,11 +80,12 @@ function Movies({ handleSaveMovies, onMovieDislike }) {
         intermediateListOfFilms.push(filmsArr[i]);
       }
     }
+    if (shortsIsActive) {
+      intermediateListOfFilms = intermediateListOfFilms.filter(
+        (film) => film.duration <= 40
+      );
+    }
     setFilms(intermediateListOfFilms);
-    // сохранение в localStorage параметров запроса
-    localStorage.setItem("textFromRequest", formValue);
-    localStorage.setItem("films", JSON.stringify(intermediateListOfFilms));
-    localStorage.setItem("shortsIsActive", shortsIsActive);
   }
 
   function handleSearchChange(e) {
@@ -73,7 +93,6 @@ function Movies({ handleSaveMovies, onMovieDislike }) {
   }
 
   function handleMovieLike(movie) {
-    console.log(movie);
     const token = localStorage.getItem("token");
     const image = `https://api.nomoreparties.co${movie.image.url}`;
     const thumbnail = `https://api.nomoreparties.co${movie.image.url}`;
@@ -108,14 +127,12 @@ function Movies({ handleSaveMovies, onMovieDislike }) {
         owner
       )
       .then((newMovie) => {
-        console.log(newMovie);
-        // newMovie.isSaved = isSaved;
-        handleSaveMovies(newMovie);
-        // handleSaveMovies((state) => {
-        //   // массив со всеми карточками
+        onMovieLike(newMovie.data);
+        // setFilmsArr((state) => {
         //   console.log(state);
-        //   // console.log(m)  каждая карточка этого массива
-        //   state.map((m) => (m.id === movie.id ? newMovie : m));
+        //   state.map((mov) =>
+        //     mov.nameRU === newMovie.data.nameRU ? newMovie.data : mov
+        //   );
         // });
       })
       .catch((err) => {
@@ -131,8 +148,10 @@ function Movies({ handleSaveMovies, onMovieDislike }) {
         isValid={isValid}
         onChangeCheckbox={handleChangeCheckbox}
         value={formValue}
+        shortsIsActive={shortsIsActive}
       />
       <MoviesCardList
+        isSavedMovies={isSavedMovies}
         films={films}
         isLoading={isLoading}
         isErr={isErr}

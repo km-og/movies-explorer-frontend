@@ -1,4 +1,11 @@
-function SearchForm({ isValid, onChange, onSubmit, onChangeCheckbox, value }) {
+function SearchForm({
+  isValid,
+  onChange,
+  onSubmit,
+  onChangeCheckbox,
+  value,
+  shortsIsActive,
+}) {
   return (
     <section className="search">
       <form
@@ -35,6 +42,7 @@ function SearchForm({ isValid, onChange, onSubmit, onChangeCheckbox, value }) {
               type="checkbox"
               id="search-checkbox"
               className="search__checkbox"
+              checked={shortsIsActive}
               onChange={onChangeCheckbox}
             />
             <span className="search__slider "></span>

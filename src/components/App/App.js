@@ -15,7 +15,6 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [isSavedMovies, setIsSavedMovies] = useState([]);
   const [currentUser, setCurrentUser] = useState({
     name: "",
     email: "",
@@ -23,21 +22,29 @@ function App() {
 
   const [isError, setIsError] = useState("");
   const [isQueryResultUpdateInfo, setIsQueryResultUpdateInfo] = useState("");
+  const [isSavedMovies, setIsSavedMovies] = useState([]);
+  const [isErrInSavedMovies, setIsErrInSavedMovies] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     tokenCheck();
+    const token = localStorage.getItem("token");
+    apiMain
+      .getData(token)
+      .then((res) => {
+        setIsSavedMovies(res.data);
+        return res;
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsErrInSavedMovies(true);
+      });
   }, []);
 
   useEffect(() => {
     tokenCheck();
   }, [loggedIn]);
-
-  function handleSaveMovies(savedMovies) {
-    console.log(savedMovies);
-    setIsSavedMovies([...isSavedMovies, savedMovies]);
-  }
-
   // СДЕЛАТЬ в навигационном меню активные ссылки
 
   function handleSubmitRegister(props) {
@@ -71,7 +78,8 @@ function App() {
   function tokenCheck() {
     const token = localStorage.getItem("token");
     if (token) {
-      Auth.getContent(token)
+      apiMain
+        .getContent(token)
         .then((res) => {
           if (res) {
             setLoggedIn(true);
@@ -120,26 +128,32 @@ function App() {
     setIsLoading(false);
   }
 
+  function handleSave(movie) {
+    setIsSavedMovies({ ...isSavedMovies, [isSavedMovies.length]: movie });
+  }
+
   function handleMovieDislike(movie) {
-    console.log(movie);
     const token = localStorage.getItem("token");
-    // setIsSaved(false);
+
     apiMain
-      .deleteMovie(movie.id, token)
+      .deleteMovie(movie._id, token)
       .then((newMovie) => {
-        console.log(newMovie);
-        handleSaveMovies((state) => {
-          const newState = state.filter((item) => {
-            return item.id !== movie.id;
-          });
-          return newState;
+        setIsSavedMovies((state) => {
+          const newState = Object.entries(state).reduce((acc, [key, value]) => {
+            if (value.nameRU !== newMovie.data.nameRU) {
+              acc[key] = value;
+            } else {
+              console.log(1);
+            }
+            return acc;
+          }, {});
+          return Object.values(newState);
         });
       })
       .catch((err) => {
         console.log(err);
       });
   }
-
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -161,12 +175,7 @@ function App() {
           />
 
           <Route path="/" element={<MainAfterLogin loggedIn={loggedIn} />}>
-            <Route
-              path=""
-              element={
-                <Main loggedIn={loggedIn} handleSaveMovies={handleSaveMovies} />
-              }
-            />
+            <Route path="" element={<Main loggedIn={loggedIn} />} />
             <Route
               path="movies"
               element={
@@ -174,8 +183,9 @@ function App() {
                   element={Movies}
                   loggedIn={loggedIn}
                   isLoading={isLoading}
-                  handleSaveMovies={handleSaveMovies}
+                  isSavedMovies={isSavedMovies}
                   onMovieDislike={handleMovieDislike}
+                  onMovieLike={handleSave}
                 />
               }
             />
@@ -187,6 +197,7 @@ function App() {
                   isLoading={isLoading}
                   loggedIn={loggedIn}
                   isSavedMovies={isSavedMovies}
+                  isErr={isErrInSavedMovies}
                   onMovieDislike={handleMovieDislike}
                 />
               }

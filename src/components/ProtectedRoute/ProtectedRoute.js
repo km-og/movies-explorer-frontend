@@ -4,7 +4,7 @@ const ProtectedRouteElement = ({ element: Component, ...props }) => {
   return props.loggedIn || props.isLoading ? (
     <Component {...props} />
   ) : (
-    <Navigate to="/signin" />
+    <Navigate to="/" />
   );
 };
 

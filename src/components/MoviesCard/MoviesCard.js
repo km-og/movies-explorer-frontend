@@ -1,22 +1,38 @@
-import { useState } from "react";
-function MoviesCard({ film, onMovieLike, onMovieDislike }) {
-  // function MoviesCard({ film, isSaved, onMovieLike, onMovieDislike }) {
+import { useEffect, useState } from "react";
+function MoviesCard({ isSavedMovies, film, onMovieLike, onMovieDislike }) {
   const [isSaved, setIsSaved] = useState(false);
+
   function handleLikeClick() {
     onMovieLike(film);
     setIsSaved(true);
   }
 
   function handleDislikeClick() {
-    onMovieDislike(film);
+    const filmFromApi = Object.values(isSavedMovies).find(
+      (el) => el.nameRU === film.nameRU
+    );
+    onMovieDislike(filmFromApi);
     setIsSaved(false);
   }
+
+  useEffect(() => {
+    function takeLikes() {
+      Object.values(isSavedMovies).find((fil) => fil.nameRU === film.nameRU)
+        ? setIsSaved(true)
+        : setIsSaved(false);
+    }
+    takeLikes();
+  }, [isSavedMovies]);
 
   return (
     <li className="films__card">
       <a href={film.trailerLink} target="_blank" rel="noreferrer">
         <img
-          src={`https://api.nomoreparties.co${film.image.url}`}
+          src={
+            film.owner
+              ? `${film.image}`
+              : `https://api.nomoreparties.co${film.image.url}`
+          }
           alt={film.nameRU}
           className="films__preview cursor"
         />

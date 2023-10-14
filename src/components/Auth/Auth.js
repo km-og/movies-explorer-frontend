@@ -22,6 +22,7 @@ const register = (name, email, password) => {
     .then((res) => {
       // здесь возвращается токен JWT
       if (res.token) {
+        console.log(res.token);
         localStorage.setItem("token", res.token);
       }
       return res;
@@ -41,27 +42,11 @@ const authorize = (email, password) => {
     })
     .then((res) => {
       if (res.token) {
+        console.log(res.token);
         localStorage.setItem("token", res.token);
         return res;
       }
     });
 };
 
-const getContent = (token) => {
-  return fetch(`${baseUrl}/users/me`, {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .then((res) => {
-      return checkingStatus(res);
-    })
-    .then((res) => {
-      return res;
-    });
-};
-
-export { baseUrl, register, authorize, getContent };
+export { baseUrl, register, authorize };
