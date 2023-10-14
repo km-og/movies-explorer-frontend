@@ -30,16 +30,18 @@ function App() {
   useEffect(() => {
     tokenCheck();
     const token = localStorage.getItem("token");
-    apiMain
-      .getData(token)
-      .then((res) => {
-        setIsSavedMovies(res.data);
-        return res;
-      })
-      .catch((err) => {
-        console.log(err);
-        setIsErrInSavedMovies(true);
-      });
+    if (token) {
+      apiMain
+        .getData(token)
+        .then((res) => {
+          setIsSavedMovies(res.data);
+          return res;
+        })
+        .catch((err) => {
+          console.log(err);
+          setIsErrInSavedMovies(true);
+        });
+    }
   }, []);
 
   useEffect(() => {
@@ -56,12 +58,14 @@ function App() {
         return res;
       })
       .catch((err) => {
-        setIsError(err);
+        setIsError("Произошла ошибка");
       });
   }
 
   function handleSubmitLogin(props) {
     const { userEmail: email, userPassword: password } = props;
+    console.log(email);
+    console.log(password);
     Auth.authorize(email, password)
       .then((res) => {
         if (res.token) {
@@ -71,7 +75,7 @@ function App() {
         }
       })
       .catch((err) => {
-        setIsError(err);
+        setIsError("Произошла ошибка");
       });
   }
 
