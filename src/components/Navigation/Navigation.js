@@ -1,36 +1,66 @@
+import { NavLink } from "react-router-dom";
+
 function Navigation({ handleClick }) {
+  function onClick() {
+    handleClick();
+  }
   return (
     <div className="navigation">
       <button
         type="button"
         aria-label="Закрыть"
         className="navigation__btn cursor"
-        onClick={handleClick}
+        onClick={onClick}
       ></button>
       <nav>
         <ul className="navigation__list">
           <li className="navigation__item">
-            <a href="/" className="navigation__link link">
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive
+                  ? "navigation__link link navigation__link_type_active"
+                  : "navigation__link link "
+              }
+              onClick={onClick}
+            >
               Главная
-            </a>
+            </NavLink>
           </li>
           <li className="navigation__item">
-            <a
-              href="/movies"
-              className="navigation__link link navigation__link_type_active"
+            <NavLink
+              to="/movies"
+              className={({ isActive }) =>
+                isActive
+                  ? "navigation__link link navigation__link_type_active"
+                  : "navigation__link link "
+              }
+              onClick={onClick}
             >
               Фильмы
-            </a>
+            </NavLink>
           </li>
           <li className="navigation__item">
-            <a href="/saved-movies" className="navigation__link link">
+            <NavLink
+              to="/saved-movies"
+              className={({ isActive }) =>
+                isActive
+                  ? "navigation__link link navigation__link_type_active"
+                  : "navigation__link link "
+              }
+              onClick={onClick}
+            >
               Сохранённые фильмы
-            </a>
+            </NavLink>
           </li>
           <li className="navigation__item">
-            <a href="/profile" className="navigation__account link">
+            <NavLink
+              to="/profile"
+              className="navigation__account link"
+              onClick={onClick}
+            >
               Аккаунт
-            </a>
+            </NavLink>
           </li>
         </ul>
       </nav>

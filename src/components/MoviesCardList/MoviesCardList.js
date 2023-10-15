@@ -4,8 +4,10 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 import Preloader from "../Preloader/Preloader";
 
 function MoviesCardList({
+  isRouteSavedMovies,
+  isFristRender,
   films,
-  isLoading,
+  isPreload,
   isErr,
   onMovieLike,
   onMovieDislike,
@@ -17,6 +19,8 @@ function MoviesCardList({
   const [arrFilms, setArrFilms] = useState(0);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [cardsToShow, setCardsToShow] = useState(12);
+  const windowWidthDesktop = 1025;
+  const windowWidthTablet = 768;
   // let arrFilms = films.slice(0, cardsToShow);
   useEffect(() => {
     if (films) {
@@ -26,10 +30,10 @@ function MoviesCardList({
   }, [films, cardsToShow]);
 
   useEffect(() => {
-    if (windowWidth >= 1025) {
+    if (windowWidth >= windowWidthDesktop) {
       setCardsToShow(12);
       return;
-    } else if (windowWidth >= 768) {
+    } else if (windowWidth >= windowWidthTablet) {
       setCardsToShow(8);
       return;
     } else {
@@ -38,7 +42,7 @@ function MoviesCardList({
   }, [windowWidth]);
 
   function handleClick() {
-    if (windowWidth >= 1025) {
+    if (windowWidth >= windowWidthDesktop) {
       setCardsToShow(cardsToShow + 3);
       return;
     } else {
@@ -48,7 +52,7 @@ function MoviesCardList({
 
   return (
     <section className="films">
-      {isLoading ? (
+      {isPreload ? (
         <Preloader />
       ) : (
         <>
@@ -62,12 +66,19 @@ function MoviesCardList({
             <>
               {totalCards === 0 ? (
                 // {films.length === 0 ? (
-                <p className="films__not-found">Ничего не найдено</p>
+                isFristRender ? (
+                  ""
+                ) : isRouteSavedMovies ? (
+                  ""
+                ) : (
+                  <p className="films__not-found">Ничего не найдено</p>
+                )
               ) : (
                 <>
                   <ul className="films__list">
                     {arrFilms.map((film) => (
                       <MoviesCard
+                        isRouteSavedMovies={isRouteSavedMovies}
                         isSavedMovies={isSavedMovies}
                         film={film}
                         key={film.id || film._id}

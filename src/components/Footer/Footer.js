@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 function Footer() {
   return (
     <footer className="footer">
@@ -9,24 +10,24 @@ function Footer() {
         <nav>
           <ul className="footer__list">
             <li className="footer__item">
-              <a
-                href="https://practicum.yandex.ru/"
+              <NavLink
+                to="https://practicum.yandex.ru/"
                 target="_blank"
                 rel="noreferrer"
                 className="footer__link link"
               >
                 Яндекс.Практикум
-              </a>
+              </NavLink>
             </li>
             <li className="footer__item">
-              <a
-                href="https://github.com/km-og?tab=repositories"
+              <NavLink
+                to="https://github.com/km-og?tab=repositories"
                 target="_blank"
                 rel="noreferrer"
                 className="footer__link link"
               >
                 Github
-              </a>
+              </NavLink>
             </li>
           </ul>
         </nav>

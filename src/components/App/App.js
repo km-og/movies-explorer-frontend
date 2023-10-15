@@ -12,10 +12,15 @@ import ProtectedRouteElement from "../ProtectedRoute/ProtectedRoute.js";
 import * as Auth from "../Auth/Auth";
 import { apiMain } from "../../utils/MainApi";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({
+    name: "",
+    email: "",
+  });
+  const [newCurrentUser, setNewCurrentUser] = useState({
     name: "",
     email: "",
   });
@@ -26,6 +31,10 @@ function App() {
   const [isErrInSavedMovies, setIsErrInSavedMovies] = useState(false);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    tokenCheck();
+  }, []);
 
   useEffect(() => {
     tokenCheck();
@@ -42,12 +51,7 @@ function App() {
           setIsErrInSavedMovies(true);
         });
     }
-  }, []);
-
-  useEffect(() => {
-    tokenCheck();
   }, [loggedIn]);
-  // СДЕЛАТЬ в навигационном меню активные ссылки
 
   function handleSubmitRegister(props) {
     const { userName: name, userEmail: email, userPassword: password } = props;
@@ -64,8 +68,6 @@ function App() {
 
   function handleSubmitLogin(props) {
     const { userEmail: email, userPassword: password } = props;
-    console.log(email);
-    console.log(password);
     Auth.authorize(email, password)
       .then((res) => {
         if (res.token) {
@@ -107,19 +109,19 @@ function App() {
 
   function handleChangeUserInfo(e) {
     const { name, value } = e.target;
-    setCurrentUser({ ...currentUser, [name]: value });
+    setNewCurrentUser({ ...currentUser, [name]: value });
   }
 
   function handleUpdateProfile(e) {
     const token = localStorage.getItem("token");
-    const { name, email } = currentUser;
+    const { name, email } = newCurrentUser;
 
     apiMain
       .sendData(name, email, token, "PATCH")
       .then((newData) => {
-        console.log(newData);
+        const newInfo = newData.data;
         setIsQueryResultUpdateInfo("Запрос прошел успешно");
-        setCurrentUser({ ...currentUser, newData });
+        setCurrentUser(newInfo);
       })
       .catch((err) => {
         setIsQueryResultUpdateInfo("Что-то пошло не так...");
@@ -130,6 +132,7 @@ function App() {
   function changeOnExit() {
     setLoggedIn(false);
     setIsLoading(false);
+    setIsError("");
   }
 
   function handleSave(movie) {
@@ -158,6 +161,7 @@ function App() {
         console.log(err);
       });
   }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">

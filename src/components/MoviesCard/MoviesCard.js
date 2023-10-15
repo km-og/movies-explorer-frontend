@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
-function MoviesCard({ isSavedMovies, film, onMovieLike, onMovieDislike }) {
+import { Link } from "react-router-dom";
+function MoviesCard({
+  isRouteSavedMovies,
+  isSavedMovies,
+  film,
+  onMovieLike,
+  onMovieDislike,
+}) {
   const [isSaved, setIsSaved] = useState(false);
 
   function handleLikeClick() {
@@ -26,7 +33,7 @@ function MoviesCard({ isSavedMovies, film, onMovieLike, onMovieDislike }) {
 
   return (
     <li className="films__card">
-      <a href={film.trailerLink} target="_blank" rel="noreferrer">
+      <Link to={film.trailerLink} target="_blank" rel="noreferrer">
         <img
           src={
             film.owner
@@ -36,10 +43,17 @@ function MoviesCard({ isSavedMovies, film, onMovieLike, onMovieDislike }) {
           alt={film.nameRU}
           className="films__preview cursor"
         />
-      </a>
+      </Link>
       {isSaved ? (
         <button
-          className="films__icon-save cursor"
+          type="button"
+          aria-label="Удалить"
+          className={
+            isRouteSavedMovies
+              ? "films__icon-delete cursor"
+              : "films__icon-save cursor"
+          }
+          // className="films__icon-save cursor"
           onClick={handleDislikeClick}
         ></button>
       ) : (

@@ -8,38 +8,32 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 function Movies({ isSavedMovies, onMovieDislike, onMovieLike }) {
   const [isValid, setIsValid] = useState(true);
   const [formValue, setFormValue] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isPreload, setIsPreload] = useState(false);
   const [isErr, setIsErr] = useState(false);
   const [filmsArr, setFilmsArr] = useState([]);
   const [films, setFilms] = useState([]);
   const [shortsIsActive, setShortsIsActive] = useState(false);
+  const [isFristRender, setIsFirstRender] = useState(true);
   // const [isSaved, setIsSaved] = useState(false);
 
   const currentUser = useContext(CurrentUserContext);
+  const durationShortFilm = 40;
+
+  console.log(filmsArr);
 
   useEffect(() => {
     function getDataFromLocalStorage() {
-      if (localStorage.getItem("textFromRequest") !== null) {
+      if (!localStorage.getItem("textFromRequest")) {
+        setIsFirstRender(true);
+        return;
+      } else {
         setFormValue(localStorage.getItem("textFromRequest"));
         setFilms(JSON.parse(localStorage.getItem("films")));
         setShortsIsActive(JSON.parse(localStorage.getItem("shortsIsActive")));
-        return;
+        setIsFirstRender(false);
       }
     }
     getDataFromLocalStorage();
-
-    function getCards() {
-      apiMovies
-        .getData()
-        .then((data) => {
-          setFilmsArr(data);
-          setIsLoading(false);
-        })
-        .catch((err) => {
-          setIsErr(true);
-        });
-    }
-    getCards();
   }, []);
 
   useEffect(() => {
@@ -48,10 +42,68 @@ function Movies({ isSavedMovies, onMovieDislike, onMovieLike }) {
     localStorage.setItem("films", JSON.stringify(films));
   }, [shortsIsActive, films]);
 
+  function getCards() {
+    apiMovies
+      .getData()
+      .then((data) => {
+        setFilmsArr(data);
+        renderMovies(data);
+        setIsPreload(false);
+        setIsFirstRender(false);
+      })
+      .catch((err) => {
+        setIsErr(true);
+        setIsPreload(false);
+      });
+  }
+
+  useEffect(() => {
+    if (filmsArr.length !== 0 && formValue) {
+      return;
+    } else if (formValue) {
+      getCards();
+    }
+  }, [formValue]);
+
+  function handleSearchSubmit(e) {
+    e.preventDefault();
+    if (formValue === "") {
+      setIsValid(false);
+      return;
+    }
+    setIsPreload(true);
+    setIsValid(true);
+    if (!isFristRender) {
+      renderMovies(filmsArr);
+      setIsPreload(false);
+    }
+  }
+
+  function renderMovies(filmsArr) {
+    let intermediateListOfFilms = [];
+    for (let i = 0; i < filmsArr.length; i++) {
+      if (filmsArr[i].nameRU.toLowerCase().includes(formValue.toLowerCase())) {
+        intermediateListOfFilms.push(filmsArr[i]);
+      }
+    }
+    if (shortsIsActive) {
+      intermediateListOfFilms = intermediateListOfFilms.filter(
+        (film) => film.duration <= durationShortFilm
+      );
+    }
+    setFilms(intermediateListOfFilms);
+  }
+
+  function handleSearchChange(e) {
+    setFormValue(e.target.value);
+  }
+
   function handleChangeCheckbox() {
     setShortsIsActive((value) => {
       if (!value) {
-        const newState = films.filter((film) => film.duration <= 40);
+        const newState = films.filter(
+          (film) => film.duration <= durationShortFilm
+        );
         setFilms(newState);
       } else {
         setFilms(
@@ -62,34 +114,6 @@ function Movies({ isSavedMovies, onMovieDislike, onMovieLike }) {
       }
       return !value;
     });
-  }
-
-  function handleSearchSubmit(e) {
-    let intermediateListOfFilms = [];
-    e.preventDefault();
-    setIsLoading(true);
-    if (formValue === "") {
-      setIsValid(false);
-      setIsLoading(false);
-      return;
-    }
-    setIsValid(true);
-    setIsLoading(false);
-    for (let i = 0; i < filmsArr.length; i++) {
-      if (filmsArr[i].nameRU.toLowerCase().includes(formValue.toLowerCase())) {
-        intermediateListOfFilms.push(filmsArr[i]);
-      }
-    }
-    if (shortsIsActive) {
-      intermediateListOfFilms = intermediateListOfFilms.filter(
-        (film) => film.duration <= 40
-      );
-    }
-    setFilms(intermediateListOfFilms);
-  }
-
-  function handleSearchChange(e) {
-    setFormValue(e.target.value);
   }
 
   function handleMovieLike(movie) {
@@ -127,13 +151,8 @@ function Movies({ isSavedMovies, onMovieDislike, onMovieLike }) {
         owner
       )
       .then((newMovie) => {
+        console.log(newMovie);
         onMovieLike(newMovie.data);
-        // setFilmsArr((state) => {
-        //   console.log(state);
-        //   state.map((mov) =>
-        //     mov.nameRU === newMovie.data.nameRU ? newMovie.data : mov
-        //   );
-        // });
       })
       .catch((err) => {
         console.log(err);
@@ -151,9 +170,10 @@ function Movies({ isSavedMovies, onMovieDislike, onMovieLike }) {
         shortsIsActive={shortsIsActive}
       />
       <MoviesCardList
+        isFristRender={isFristRender}
         isSavedMovies={isSavedMovies}
         films={films}
-        isLoading={isLoading}
+        isPreload={isPreload}
         isErr={isErr}
         onMovieLike={handleMovieLike}
         onMovieDislike={onMovieDislike}

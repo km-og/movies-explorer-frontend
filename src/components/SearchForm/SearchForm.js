@@ -13,6 +13,7 @@ function SearchForm({
         id="searchForm"
         name="searchForm"
         onSubmit={onSubmit}
+        noValidate
       >
         <div className="search__container">
           <label className="search__input-box">

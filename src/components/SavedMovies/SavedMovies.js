@@ -13,12 +13,12 @@ function SavedMovies({
   const [formValue, setFormValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [films, setFilms] = useState([]);
-  // const [isErr, setIsErr] = useState(false);
   const [shortsIsActive, setShortsIsActive] = useState(false);
+  const [isRouteSavedMovies, setIsRouteSavedMovies] = useState(true);
 
   useEffect(() => {
     setFilms(isSavedMovies);
-  }, []);
+  }, [isSavedMovies]);
 
   function handleChangeCheckbox() {
     setShortsIsActive((value) => {
@@ -42,7 +42,6 @@ function SavedMovies({
 
   function handleSearchSubmit(e) {
     let intermediateListOfFilms = [];
-    console.log(1);
     e.preventDefault();
     setIsLoading(true);
     if (formValue === "") {
@@ -84,6 +83,7 @@ function SavedMovies({
         isErr={isErr}
         onMovieLike={handleSaveMovies}
         onMovieDislike={onMovieDislike}
+        isRouteSavedMovies={isRouteSavedMovies}
       />
     </div>
   );

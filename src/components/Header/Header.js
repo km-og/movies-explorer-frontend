@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import logo from "../../images/header-logo.svg";
 import Navigation from "../Navigation/Navigation";
 
@@ -15,32 +16,44 @@ function Header({ loggedIn }) {
 
   return (
     <header className="header">
-      <a href="/" className="header__link link">
+      <NavLink to="/" className="header__link link">
         <img src={logo} alt="логотип" className="header__logo" />
-      </a>
+      </NavLink>
       {loggedIn ? (
         <>
           <nav className="header__nav">
             <div className="header__container">
-              <a
-                href="/movies"
-                className="header__link header__link_type_active header__link_name_films link"
+              <NavLink
+                to="/movies"
+                className={({ isActive }) =>
+                  isActive
+                    ? "header__link header__link_name_films link header__link_type_active"
+                    : "header__link header__link_name_films link"
+                }
               >
                 Фильмы
-              </a>
-              <a
-                href="/saved-movies"
-                className="header__link header__link_name_saved link"
+              </NavLink>
+              <NavLink
+                to="/saved-movies"
+                className={({ isActive }) =>
+                  isActive
+                    ? "header__link header__link_type_active link header__link_name_saved"
+                    : "header__link header__link_name_saved link"
+                }
               >
                 Сохранённые фильмы
-              </a>
+              </NavLink>
             </div>
-            <a
-              href="/profile"
-              className="header__link header__link_name_account link"
+            <NavLink
+              to="/profile"
+              className={({ isActive }) =>
+                isActive
+                  ? "header__link header__link_type_active link header__link_name_account"
+                  : "header__link header__link_name_account link"
+              }
             >
               Аккаунт
-            </a>
+            </NavLink>
           </nav>
           <div
             className="header__menu cursor"
@@ -54,15 +67,15 @@ function Header({ loggedIn }) {
         </>
       ) : (
         <nav className="header__box">
-          <a href="/signup" className="header__auth link">
+          <NavLink to="/signup" className="header__auth link">
             Регистрация
-          </a>
-          <a
-            href="/signin"
+          </NavLink>
+          <NavLink
+            to="/signin"
             className="header__auth header__auth_name_signin cursor"
           >
             Войти
-          </a>
+          </NavLink>
         </nav>
       )}
     </header>

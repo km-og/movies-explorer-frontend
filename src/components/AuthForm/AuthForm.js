@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import { NavLink } from "react-router-dom";
 import logo from "../../images/header-logo.svg";
 
 function AuthForm({
@@ -35,11 +35,24 @@ function AuthForm({
   }
 
   function handleChangeInputEmail(evt) {
-    onChangeInput(evt);
-    evt.target.validity.valid
-      ? setIsValidInputEmail(true)
-      : setIsValidInputEmail(false);
-    setIsErrorTextForEmail(evt.target.validationMessage);
+    const validationMessage = "Почта должна быть формата example@example.com";
+    if (
+      /^[\w]+[\.]?[-]?[\w]+@[\w]+[-]?[\w]+\.[a-zA-Z]{2,}$/.test(
+        evt.target.value
+      )
+    ) {
+      setIsValidInputEmail(true);
+      setIsErrorTextForEmail(evt.target.validationMessage);
+      onChangeInput(evt);
+      return;
+    }
+    setIsErrorTextForEmail(validationMessage);
+    setIsValidInputEmail(false);
+    // onChangeInput(evt);
+    // evt.target.validity.valid
+    //   ? setIsValidInputEmail(true)
+    //   : setIsValidInputEmail(false);
+    // setIsErrorTextForEmail(evt.target.validationMessage);
   }
 
   function handleChangeInputPassword(evt) {
@@ -70,9 +83,9 @@ function AuthForm({
 
   return (
     <div className="auth">
-      <a href="/" className="link">
+      <NavLink to="/" className="link">
         <img className="auth__logo" src={logo} alt="логотип" />
-      </a>
+      </NavLink>
       <h2 className="auth__title">{title}</h2>
       <form className="auth__form" noValidate onSubmit={handleSubmit}>
         <div className="auth__box">
@@ -153,9 +166,9 @@ function AuthForm({
 
           <p className="auth__text">
             {textBeforeLink}
-            <a href={link} className="auth__link ">
+            <NavLink to={link} className="auth__link ">
               {textLink}
-            </a>
+            </NavLink>
           </p>
         </div>
       </form>

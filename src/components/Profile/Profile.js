@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { useNavigate, NavLink } from "react-router-dom";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function Profile({
   userInfo,
@@ -18,21 +19,27 @@ function Profile({
   // const email = userInfo.profileEmail;
 
   const navigate = useNavigate();
-  function signOut() {
+  const currentUser = useContext(CurrentUserContext);
+
+  function signOut(e) {
+    e.preventDefault();
     if (localStorage.getItem("films")) {
       localStorage.removeItem("films");
       localStorage.removeItem("textFromRequest");
       localStorage.removeItem("shortsIsActive");
     }
     localStorage.removeItem("token");
+    navigate("/", { replace: true });
     onSignOut();
-    navigate("/");
   }
 
   function handleChangeInputName(evt) {
     const validationMessage =
       "Имя должно содержать только латиницу, кириллицу, пробел или дефис.";
-    if (/^[а-яА-ЯёЁA-Za-z\-\s\D]+$/.test(evt.target.value)) {
+    if (
+      /^[а-яА-ЯёЁA-Za-z\-\s\D]+$/.test(evt.target.value) &&
+      evt.target.value !== currentUser.name
+    ) {
       setIsValidInputName(true);
       setIsErrorTextForName(evt.target.validationMessage);
       onChangeInput(evt);
@@ -43,11 +50,20 @@ function Profile({
   }
 
   function handleChangeInputEmail(evt) {
-    onChangeInput(evt);
-    evt.target.validity.valid
-      ? setIsValidInputEmail(true)
-      : setIsValidInputEmail(false);
-    setIsErrorTextForEmail(evt.target.validationMessage);
+    const validationMessage = "Почта должна быть формата example@example.com";
+    if (
+      /^[\w]+[\-]?[\w]+@[\w]+[\-]?[\w]+\.[a-zA-Z]{2,}$/.test(
+        evt.target.value
+      ) &&
+      evt.target.value !== currentUser.email
+    ) {
+      setIsValidInputEmail(true);
+      setIsErrorTextForEmail(evt.target.validationMessage);
+      onChangeInput(evt);
+      return;
+    }
+    setIsErrorTextForEmail(validationMessage);
+    setIsValidInputEmail(false);
   }
 
   function handleSubmit(evt) {
@@ -70,7 +86,7 @@ function Profile({
 
   return (
     <div className="profile">
-      <h2 className="profile__title">Привет, {userInfo.name}!</h2>
+      <h2 className="profile__title">Привет, {currentUser.name}!</h2>
       {/* <h2 className="profile__title">Привет, {userInfo.profileName}!</h2> */}
       <form className="profile__form" onSubmit={handleSubmit}>
         <div className="profile__input-box">
@@ -130,9 +146,9 @@ function Profile({
         >
           Редактировать
         </button>
-        <a href="/signin" className="profile__exit" onClick={signOut}>
+        <NavLink to="/signin" className="profile__exit" onClick={signOut}>
           Выйти из аккаунта
-        </a>
+        </NavLink>
       </form>
     </div>
   );

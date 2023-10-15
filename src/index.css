@@ -74,6 +74,7 @@
 @import url(./blocks/films/__card/films__card.css);
 @import url(./blocks/films/__preview/films__preview.css);
 @import url(./blocks/films/__icon-save/films__icon-save.css);
+@import url(./blocks/films/__icon-delete/films__icon-delete.css);
 @import url(./blocks/films/__btn-save/films__btn-save.css);
 @import url(./blocks/films/__text/films__text.css);
 @import url(./blocks/films/__name/films__name.css);
