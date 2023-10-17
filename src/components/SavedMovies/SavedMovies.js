@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SearchForm from "../SearchForm/SearchForm";
-import { apiMain } from "../../utils/MainApi";
 
 function SavedMovies({
   isErr,
@@ -11,13 +10,16 @@ function SavedMovies({
 }) {
   const [isValid, setIsValid] = useState(true);
   const [formValue, setFormValue] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [films, setFilms] = useState([]);
   const [shortsIsActive, setShortsIsActive] = useState(false);
   const [isRouteSavedMovies, setIsRouteSavedMovies] = useState(true);
-
+  const [isSubmit, setIsSubmit] = useState(false);
+  const durationShortFilm = 40;
   useEffect(() => {
     setFilms(isSavedMovies);
+    if (isSubmit) {
+      renderMovies(isSavedMovies);
+    }
   }, [isSavedMovies]);
 
   function handleChangeCheckbox() {
@@ -41,16 +43,19 @@ function SavedMovies({
   }
 
   function handleSearchSubmit(e) {
-    let intermediateListOfFilms = [];
     e.preventDefault();
-    setIsLoading(true);
-    if (formValue === "") {
-      setIsValid(false);
-      setIsLoading(false);
-      return;
-    }
+    setIsSubmit(true);
+    // if (formValue === "") {
+    //   setIsValid(true);
+    //   setIsSubmit(false);
+    //   // return;
+    // }
     setIsValid(true);
-    setIsLoading(false);
+    renderMovies(isSavedMovies);
+  }
+
+  function renderMovies(isSavedMovies) {
+    let intermediateListOfFilms = [];
     for (let i = 0; i < isSavedMovies.length; i++) {
       if (
         isSavedMovies[i].nameRU.toLowerCase().includes(formValue.toLowerCase())
@@ -60,7 +65,7 @@ function SavedMovies({
     }
     if (shortsIsActive) {
       intermediateListOfFilms = intermediateListOfFilms.filter(
-        (film) => film.duration <= 40
+        (film) => film.duration <= durationShortFilm
       );
     }
     setFilms(intermediateListOfFilms);
@@ -79,7 +84,7 @@ function SavedMovies({
       <MoviesCardList
         isSavedMovies={isSavedMovies}
         films={films}
-        isLoading={isLoading}
+        // isLoading={isLoading}
         isErr={isErr}
         onMovieLike={handleSaveMovies}
         onMovieDislike={onMovieDislike}

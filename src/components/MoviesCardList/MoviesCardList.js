@@ -14,20 +14,12 @@ function MoviesCardList({
   isSavedMovies,
   // isSaved,
 }) {
-  // const totalCards = films.length;
   const [totalCards, setTotalCards] = useState(0);
   const [arrFilms, setArrFilms] = useState(0);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [cardsToShow, setCardsToShow] = useState(12);
   const windowWidthDesktop = 1025;
   const windowWidthTablet = 768;
-  // let arrFilms = films.slice(0, cardsToShow);
-  useEffect(() => {
-    if (films) {
-      setTotalCards(Object.values(films).length);
-      setArrFilms(Object.values(films).slice(0, cardsToShow));
-    }
-  }, [films, cardsToShow]);
 
   useEffect(() => {
     if (windowWidth >= windowWidthDesktop) {
@@ -40,6 +32,29 @@ function MoviesCardList({
       setCardsToShow(5);
     }
   }, [windowWidth]);
+
+  useEffect(() => {
+    if (films) {
+      setTotalCards(Object.values(films).length);
+      setArrFilms(Object.values(films).slice(0, cardsToShow));
+    }
+    if (isRouteSavedMovies) {
+      setCardsToShow(Object.values(films).length);
+      return;
+    }
+  }, [films, cardsToShow]);
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowWidth(window.innerWidth);
+    }
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   function handleClick() {
     if (windowWidth >= windowWidthDesktop) {
@@ -88,7 +103,8 @@ function MoviesCardList({
                       />
                     ))}
                   </ul>
-                  {cardsToShow < totalCards && (
+
+                  {cardsToShow < totalCards && !isRouteSavedMovies && (
                     <button
                       type="button"
                       className="films__btn-more cursor"

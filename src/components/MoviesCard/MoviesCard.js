@@ -33,7 +33,7 @@ function MoviesCard({
 
   return (
     <li className="films__card">
-      <Link to={film.trailerLink} target="_blank" rel="noreferrer">
+      <a href={film.trailerLink} target="_blank" rel="noreferrer">
         <img
           src={
             film.owner
@@ -43,7 +43,7 @@ function MoviesCard({
           alt={film.nameRU}
           className="films__preview cursor"
         />
-      </Link>
+      </a>
       {isSaved ? (
         <button
           type="button"

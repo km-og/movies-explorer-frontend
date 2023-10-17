@@ -136,7 +136,11 @@ function App() {
   }
 
   function handleSave(movie) {
-    setIsSavedMovies({ ...isSavedMovies, [isSavedMovies.length]: movie });
+    const order = Object.values(isSavedMovies).length;
+    setIsSavedMovies({
+      ...isSavedMovies,
+      [order]: movie,
+    });
   }
 
   function handleMovieDislike(movie) {
@@ -149,8 +153,6 @@ function App() {
           const newState = Object.entries(state).reduce((acc, [key, value]) => {
             if (value.nameRU !== newMovie.data.nameRU) {
               acc[key] = value;
-            } else {
-              console.log(1);
             }
             return acc;
           }, {});

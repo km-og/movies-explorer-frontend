@@ -19,8 +19,6 @@ function Movies({ isSavedMovies, onMovieDislike, onMovieLike }) {
   const currentUser = useContext(CurrentUserContext);
   const durationShortFilm = 40;
 
-  console.log(filmsArr);
-
   useEffect(() => {
     function getDataFromLocalStorage() {
       if (!localStorage.getItem("textFromRequest")) {
@@ -57,14 +55,6 @@ function Movies({ isSavedMovies, onMovieDislike, onMovieLike }) {
       });
   }
 
-  useEffect(() => {
-    if (filmsArr.length !== 0 && formValue) {
-      return;
-    } else if (formValue) {
-      getCards();
-    }
-  }, [formValue]);
-
   function handleSearchSubmit(e) {
     e.preventDefault();
     if (formValue === "") {
@@ -76,6 +66,10 @@ function Movies({ isSavedMovies, onMovieDislike, onMovieLike }) {
     if (!isFristRender) {
       renderMovies(filmsArr);
       setIsPreload(false);
+      return;
+    }
+    if (filmsArr.length === 0 || isFristRender) {
+      getCards();
     }
   }
 
@@ -91,6 +85,7 @@ function Movies({ isSavedMovies, onMovieDislike, onMovieLike }) {
         (film) => film.duration <= durationShortFilm
       );
     }
+    // setIsPreload(false);
     setFilms(intermediateListOfFilms);
   }
 
