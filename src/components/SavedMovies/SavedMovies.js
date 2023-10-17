@@ -15,6 +15,7 @@ function SavedMovies({
   const [isRouteSavedMovies, setIsRouteSavedMovies] = useState(true);
   const [isSubmit, setIsSubmit] = useState(false);
   const durationShortFilm = 40;
+
   useEffect(() => {
     setFilms(isSavedMovies);
     if (isSubmit) {
@@ -23,6 +24,8 @@ function SavedMovies({
   }, [isSavedMovies]);
 
   console.log(isSavedMovies);
+  console.log(typeof isSavedMovies);
+
   function handleChangeCheckbox() {
     setShortsIsActive((value) => {
       if (!value) {
@@ -46,22 +49,22 @@ function SavedMovies({
   function handleSearchSubmit(e) {
     e.preventDefault();
     setIsSubmit(true);
-    // if (formValue === "") {
-    //   setIsValid(true);
-    //   setIsSubmit(false);
-    //   // return;
-    // }
     setIsValid(true);
     renderMovies(isSavedMovies);
   }
 
   function renderMovies(isSavedMovies) {
+    console.log(123);
     let intermediateListOfFilms = [];
-    for (let i = 0; i < isSavedMovies.length; i++) {
+    console.log(456);
+    const savedMoviesArr = Object.values(isSavedMovies);
+    for (let i = 0; i < savedMoviesArr.length; i++) {
+      console.log(654);
+      console.log(isSavedMovies[i]);
       if (
-        isSavedMovies[i].nameRU.toLowerCase().includes(formValue.toLowerCase())
+        savedMoviesArr[i].nameRU.toLowerCase().includes(formValue.toLowerCase())
       ) {
-        intermediateListOfFilms.push(isSavedMovies[i]);
+        intermediateListOfFilms.push(savedMoviesArr[i]);
       }
     }
     if (shortsIsActive) {
@@ -69,9 +72,10 @@ function SavedMovies({
         (film) => film.duration <= durationShortFilm
       );
     }
+    console.log(intermediateListOfFilms);
     setFilms(intermediateListOfFilms);
   }
-
+  console.log(films);
   return (
     <div className="saved">
       <SearchForm

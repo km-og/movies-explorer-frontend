@@ -20,7 +20,7 @@ function MoviesCardList({
   const [cardsToShow, setCardsToShow] = useState(12);
   const windowWidthDesktop = 1025;
   const windowWidthTablet = 768;
-
+  console.log(films);
   useEffect(() => {
     if (windowWidth >= windowWidthDesktop) {
       setCardsToShow(12);

@@ -72,6 +72,7 @@ function Profile({
       return;
     } else {
       onSubmitForm(evt);
+      setIsValidForm(false);
     }
   }
 
