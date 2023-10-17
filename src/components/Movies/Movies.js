@@ -55,6 +55,12 @@ function Movies({ isSavedMovies, onMovieDislike, onMovieLike }) {
       });
   }
 
+  useEffect(() => {
+    if (Object.values(filmsArr).length === 0 && !isFristRender) {
+      getCards();
+    }
+  }, [isFristRender]);
+
   function handleSearchSubmit(e) {
     e.preventDefault();
     if (formValue === "") {
@@ -63,13 +69,15 @@ function Movies({ isSavedMovies, onMovieDislike, onMovieLike }) {
     }
     setIsPreload(true);
     setIsValid(true);
+
+    if (isFristRender && Object.values(filmsArr).length === 0) {
+      getCards();
+    }
+
     if (!isFristRender) {
       renderMovies(filmsArr);
       setIsPreload(false);
       return;
-    }
-    if (filmsArr.length === 0 || isFristRender) {
-      getCards();
     }
   }
 
@@ -146,7 +154,6 @@ function Movies({ isSavedMovies, onMovieDislike, onMovieLike }) {
         owner
       )
       .then((newMovie) => {
-        console.log(newMovie);
         onMovieLike(newMovie.data);
       })
       .catch((err) => {

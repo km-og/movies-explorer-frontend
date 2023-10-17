@@ -22,6 +22,7 @@ function SavedMovies({
     }
   }, [isSavedMovies]);
 
+  console.log(isSavedMovies);
   function handleChangeCheckbox() {
     setShortsIsActive((value) => {
       if (!value) {

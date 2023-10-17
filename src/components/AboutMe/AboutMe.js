@@ -7,7 +7,7 @@ function AboutMe() {
       <div className="student__container">
         <div className="student__text">
           <h3 className="student__subtitle">Инесса</h3>
-          <p className="student__briefly">Фронтенд-разработчик, 22 года</p>
+          <p className="student__briefly">Фронтенд-разработчик, 23 года</p>
           <p className="student__desription">
             В 2021 году я закончила факультет химической технологии в РХТУ, но
             еще во время обучения поняла, что не хочу работать по профессии,
