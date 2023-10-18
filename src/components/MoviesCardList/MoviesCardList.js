@@ -31,7 +31,7 @@ function MoviesCardList({
     } else {
       setCardsToShow(5);
     }
-  }, [windowWidth]);
+  }, [windowWidth, films]);
 
   useEffect(() => {
     if (films) {
