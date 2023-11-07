@@ -1,0 +1,16 @@
+.navigation__btn {
+  background: url("../../../images/navigation__btn-close.svg") no-repeat center;
+  width: 22px;
+  height: 22px;
+  border: none;
+  top: 27px;
+  right: 27px;
+  position: absolute;
+}
+
+@media screen and (max-width: 767px) {
+  .navigation__btn {
+    top: 18px;
+    right: 18px;
+  }
+}

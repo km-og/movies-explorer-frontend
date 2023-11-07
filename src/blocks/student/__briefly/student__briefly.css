@@ -1,0 +1,22 @@
+.student__briefly {
+  margin: 19px 0 0;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+@media screen and (max-width: 1024px) {
+  .student__briefly {
+    margin-top: 16px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .student__briefly {
+    margin-top: 24px;
+    font-size: 11px;
+    line-height: 1.45;
+  }
+}

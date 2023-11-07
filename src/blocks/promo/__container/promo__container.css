@@ -1,0 +1,25 @@
+.promo__container {
+  max-width: 1200px;
+  width: 93.75%;
+  background-color: #272727;
+  border-radius: 10px;
+  margin: 20px auto 0;
+  padding: 0 0 30px;
+}
+
+@media screen and (max-width: 1024px) {
+  .promo__container {
+    min-width: 728px;
+    width: 94.79%;
+    margin-top: 26px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .promo__container {
+    min-width: 292px;
+    width: 91.25%;
+    margin-top: 22px;
+    padding-bottom: 17px;
+  }
+}

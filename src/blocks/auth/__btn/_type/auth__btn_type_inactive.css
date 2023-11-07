@@ -1,0 +1,7 @@
+.auth__btn_type_inactive {
+  background-color: #2f2f2f;
+}
+
+.auth__btn_type_inactive:hover {
+  cursor: not-allowed;
+}

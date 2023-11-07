@@ -1,0 +1,14 @@
+.header__nav {
+  display: flex;
+  justify-content: space-between;
+  max-width: 676px;
+  width: 100%;
+}
+
+@media screen and (max-width: 1024px) {
+  .header__nav {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+  }
+}

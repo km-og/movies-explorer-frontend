@@ -1,0 +1,25 @@
+.description__container {
+  border-top: 1px solid #dadada;
+  margin: 24px 0 0;
+  padding: 72px 0 0;
+  box-sizing: border-box;
+  display: flex;
+  gap: 53px;
+}
+
+@media screen and (max-width: 1024px) {
+  .description__container {
+    margin-top: 24px;
+    gap: 37px;
+    padding-top: 70px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .description__container {
+    margin-top: 28px;
+    flex-direction: column;
+    gap: 56px;
+    padding-top: 61px;
+  }
+}

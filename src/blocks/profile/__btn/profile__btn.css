@@ -1,0 +1,22 @@
+.profile__btn {
+  margin: 205px 0 0;
+  border: none;
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+@media screen and (max-width: 1024px) {
+  .profile__btn {
+    margin-top: 195px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .profile__btn {
+    margin-top: 364px;
+    font-size: 12px;
+  }
+}

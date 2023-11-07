@@ -1,0 +1,13 @@
+.not-found__text {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1;
+  margin: 22px 0 0;
+}
+
+@media screen and (max-width: 767px) {
+  .not-found__text {
+    font-size: 12px;
+    margin: 20px 0 0;
+  }
+}

@@ -1,0 +1,30 @@
+.films__btn-save {
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 0.9;
+  padding: 6px 7px;
+  background-color: #313131;
+  border: none;
+  border-radius: 30px;
+  color: #ffffff;
+  max-width: 72px;
+  width: 100%;
+  z-index: 9;
+}
+
+/* .films__preview:hover ~ .films__btn-save {
+  opacity: 1;
+  overflow: visible;
+} */
+
+@media screen and (max-width: 1024px) {
+  .films__btn-save {
+    opacity: 1;
+    overflow: visible;
+  }
+}

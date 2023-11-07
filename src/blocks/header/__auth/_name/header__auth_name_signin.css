@@ -1,0 +1,14 @@
+.header__auth_name_signin {
+  padding: 9px 20px 8px;
+  background-color: #3ddc84;
+  color: #000000;
+  border-radius: 3px;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 767px) {
+  .header__auth_name_signin {
+    padding: 5px 12px;
+  }
+}

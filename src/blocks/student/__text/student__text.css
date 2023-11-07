@@ -1,0 +1,11 @@
+@media screen and (max-width: 1024px) {
+  .student__text {
+    width: 54.49%;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .student__text {
+    width: 100%;
+  }
+}

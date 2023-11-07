@@ -1,0 +1,20 @@
+.description__subtitle {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.8px;
+}
+
+@media screen and (max-width: 1024px) {
+  .description__subtitle {
+    line-height: 1.2;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .description__subtitle {
+    font-size: 18px;
+    letter-spacing: -0.7px;
+  }
+}

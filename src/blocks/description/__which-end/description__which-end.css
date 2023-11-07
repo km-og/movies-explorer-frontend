@@ -1,0 +1,20 @@
+.description__which-end {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #8b8b8b;
+  margin: 15px 0 0;
+}
+
+@media screen and (max-width: 1024px) {
+  .description__which-end {
+    margin-top: 14px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .description__which-end {
+    margin-top: 10px;
+    font-size: 11px;
+  }
+}

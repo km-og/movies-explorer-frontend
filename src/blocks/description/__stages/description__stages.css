@@ -1,0 +1,25 @@
+.description__stages {
+  padding: 110px 0 105px;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: repeat(2, 36px);
+  text-align: center;
+  margin: 0 auto;
+  width: 100%;
+}
+
+@media screen and (max-width: 1024px) {
+  .description__stages {
+    padding: 93px 0 85px;
+    min-width: 668px;
+    grid-template-columns: 20.9% 79.1%;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .description__stages {
+    padding: 59px 0 70px;
+    min-width: 284px;
+    grid-template-columns: 35.2% 64.8%;
+  }
+}

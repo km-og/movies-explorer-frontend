@@ -1,0 +1,17 @@
+.auth__btn {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1;
+  color: #ffffff;
+  background-color: #4285f4;
+  border: none;
+  border-radius: 3px;
+  padding: 15px 0 16px;
+}
+
+@media screen and (max-width: 767px) {
+  .auth__btn {
+    font-size: 12px;
+    padding: 17px 0 16px;
+  }
+}

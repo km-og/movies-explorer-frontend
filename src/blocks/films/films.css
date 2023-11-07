@@ -1,0 +1,20 @@
+.films {
+  max-width: 1140px;
+  width: 89.06%;
+  margin: 80px auto 0;
+  padding: 0 0 80px;
+}
+
+@media screen and (max-width: 1024px) {
+  .films {
+    width: 92.18%;
+    margin-top: 80px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .films {
+    width: 93.75%;
+    margin-top: 50px;
+  }
+}

@@ -1,0 +1,13 @@
+.header__auth {
+  font-size: 12px;
+  line-height: 1.3;
+  font-weight: 500;
+}
+
+@media screen and (max-width: 767px) {
+  .header__auth {
+    font-size: 10px;
+    line-height: 1.6;
+    font-weight: 500;
+  }
+}

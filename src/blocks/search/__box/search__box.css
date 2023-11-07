@@ -1,0 +1,15 @@
+.search__box {
+  margin: 28px auto 0;
+}
+
+@media screen and (max-width: 1024px) {
+  .search__box {
+    margin-top: 39px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .search__box {
+    margin-top: 44px;
+  }
+}

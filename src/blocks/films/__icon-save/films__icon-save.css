@@ -1,0 +1,19 @@
+.films__icon-save {
+  background: url("../../../images/films__icon-saved.svg") center no-repeat;
+  width: 21px;
+  height: 21px;
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  border: none;
+}
+
+/* .films__icon-save:hover {
+  background: url("../../../images/films__icon-deleted.svg") center no-repeat;
+} */
+
+/* @media screen and (max-width: 767px) {
+  .films__icon-save {
+    background: url("../../../images/films__icon-deleted.svg") center no-repeat;
+  }
+} */

@@ -1,0 +1,11 @@
+.search__checkbox {
+  display: none;
+}
+
+.search__checkbox:checked + .search__slider::before {
+  transform: translateX(20px);
+}
+
+.search__checkbox:checked + .search__slider {
+  background-color: #3ddc84;
+}

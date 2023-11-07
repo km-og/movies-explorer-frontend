@@ -1,0 +1,11 @@
+.navigation__link_type_active {
+  border-bottom: 2px solid #ffffff;
+  width: 100%;
+  padding-bottom: 4px;
+}
+
+@media screen and (max-width: 767px) {
+  .navigation__link_type_active {
+    padding-bottom: 7px;
+  }
+}
